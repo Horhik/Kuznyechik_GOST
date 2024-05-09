@@ -25,9 +25,11 @@ class Test(unittest.TestCase):
                          [ar,br,cr])
 
     def test_ring_to_string(self):
-        self.assertEqual(True, True)
+        # TODO
+        pass
 
     def test_string_to_ring(self):
+        # TODO
         pass
 
     def test_string_to_galua(self):
@@ -60,18 +62,23 @@ class Test(unittest.TestCase):
 
 
     def test_galua_to_string(self):
+        # TODO
         pass
 
     def test_compose_n_times(self):
+        # TODO
         pass
 
     def test_linear_transform(self):
+        # TODO
         pass
 
     def test_nonlinear_transform(self):
+        # TODO
         pass
 
     def test_nonlinear_transform_reversed(self):
+        # TODO
         pass
 
 
