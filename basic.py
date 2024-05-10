@@ -41,14 +41,13 @@ Sr =[ 165, 45, 50, 143, 14, 48, 56, 192, 84, 230, 158, 57, 85, 126, 82, 145,
 """ Base functions """
 
 
-def split(block, parts):
+def split(block, parts, size=8):
 
     """
     V(n) -> [V(n/number)]
     Splitting V to `number` parts
     """
     bits = []
-    size = int(math.ceil(block.bit_length() / parts))
 
     for i in range(parts):
         """
@@ -56,6 +55,16 @@ def split(block, parts):
         # 1011 -> 10
         # 10 -> 1000
         # 1000 xor 1011 -> 0011 -> 11
+
+        split(1010 1111 0101 0000, 4) ->
+
+           0        1       2      3
+           |        |       |      |
+        ['0000', '0101', '1111', '1010']
+
+        split(a15||a14||...||a1||a0) ->
+        [a0,a1,...,a14, a15]
+
         """
         shifted = block >> size
         bits.append((shifted << size)^block)
@@ -199,8 +208,8 @@ def linear_transform(string_array):
     """
     result = 0
     # sum values over Z/2
-    for i in range(15):
-        result ^= l[i][string_array[15 - i]]
+    for i in range(16):
+        result ^= l[15 - i][string_array[i]]
     return result
 
 

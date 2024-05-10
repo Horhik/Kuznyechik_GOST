@@ -5,6 +5,7 @@ import unittest
 import sys # added!
 sys.path.append("..")
 
+from hardcoded import nonlinear_coeffs
 import basic
 
 
@@ -21,7 +22,7 @@ class Test(unittest.TestCase):
         ai, al, ar = (0b101010, 3, [0b10, 0b10, 0b10] )
         bi, bl, br = (0b01010,  3, [0b10 , 0b10, 0b0] )
         ci, cl, cr = (0b1,      3, [0b1 , 0b0 , 0b0 ] )
-        self.assertEqual([basic.split(ai, al), basic.split(bi, bl), basic.split(ci, cl)],
+        self.assertEqual([basic.split(ai, al, 2), basic.split(bi, bl, 2), basic.split(ci, cl, 2)],
                          [ar,br,cr])
 
     def test_connect(self):
@@ -88,7 +89,13 @@ class Test(unittest.TestCase):
 
 
     def test_linear_transform(self):
-        # TODO
+        expected = 0
+        for c in nonlinear_coeffs:
+            expected ^= c
+
+        function_input = [0b1]*16
+
+        self.assertEqual(basic.linear_transform(function_input), expected)
         pass
 
     def test_nonlinear_transform(self):
