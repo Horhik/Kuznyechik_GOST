@@ -24,6 +24,19 @@ class Test(unittest.TestCase):
         self.assertEqual([basic.split(ai, al), basic.split(bi, bl), basic.split(ci, cl)],
                          [ar,br,cr])
 
+    def test_connect(self):
+        self.assertEqual(basic.connect([0b1111, 0b0101], size=4), 0b11110101)
+
+        self.assertEqual(basic.connect([0b1010, 0b0011, 0b1100], size=4), 0b101000111100)
+
+        self.assertEqual(basic.connect([0b0000, 0b0000, 0b0000], size=4), 0b00000000)
+
+        self.assertEqual(basic.connect([0b11111111, 0b11111111], size=8), 0b1111111111111111)
+
+        self.assertEqual(basic.connect([0b1111, 0b0101, 0b1100], size=4), 0b111101011100)
+
+        self.assertEqual(basic.connect([0b11111111, 0b00001111, 0b10101010], size=8), 0b111111110000111110101010)
+
     def test_ring_to_string(self):
         # TODO
         pass
@@ -66,19 +79,28 @@ class Test(unittest.TestCase):
         pass
 
     def test_compose_n_times(self):
-        # TODO
-        pass
+        n = 3
+        self.assertEqual(basic.compose_n_times(lambda x: x*2, 2, n), 2**(n + 1))
+        n = 9
+        self.assertEqual(basic.compose_n_times(lambda x: x*2, 2, n), 2**(n + 1))
+        n = 3
+        self.assertEqual(basic.compose_n_times(lambda x: x+2, 2, n), 2*(n + 1))
+
 
     def test_linear_transform(self):
         # TODO
         pass
 
     def test_nonlinear_transform(self):
-        # TODO
-        pass
+        self.assertEqual(basic.nonlinear_transform(3), 17)
+        self.assertEqual(basic.nonlinear_transform(255), 182)
+        self.assertEqual(basic.nonlinear_transform(254), 99)
 
     def test_nonlinear_transform_reversed(self):
-        # TODO
+
+        self.assertEqual(basic.nonlinear_transform_reversed(17), 3)
+        self.assertEqual(basic.nonlinear_transform_reversed(182), 255)
+        self.assertEqual(basic.nonlinear_transform_reversed(99), 254)
         pass
 
 

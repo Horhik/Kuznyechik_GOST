@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import numpy as np
+import math
 
 from hardcoded import l
 
@@ -47,7 +48,7 @@ def split(block, parts):
     Splitting V to `number` parts
     """
     bits = []
-    size = int(np.ceil(block.bit_length() / parts))
+    size = int(math.ceil(block.bit_length() / parts))
 
     for i in range(parts):
         """
@@ -59,9 +60,15 @@ def split(block, parts):
         shifted = block >> size
         bits.append((shifted << size)^block)
         block = shifted
-    return np.array(bits)
+    return bits
 
 
+def connect(blocks, size):
+    result = 0
+    for i in range(len(blocks)):
+        result <<= size
+        result ^= blocks[i]
+    return result
 
 def xor(A, B):
 
@@ -148,6 +155,12 @@ def galua_to_string(galua):
 
 
 def compose_n_times(function, argument, times, times_change=lambda x: x -1):
+
+    """
+    composing function times times
+    function(function(...(function(argument))))
+    """
+
     if times == 1:
         return function(argument)
     else:
@@ -188,6 +201,7 @@ def linear_transform(string_array):
     # sum values over Z/2
     for i in range(15):
         result ^= l[i][string_array[15 - i]]
+    return result
 
 
 
