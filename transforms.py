@@ -9,7 +9,7 @@ def X_transform(string_128, key=None):
     """
     Simple XOR
     """
-    return b.xor(key, string)
+    return b.xor(key, string_128)
 
 def S_transform(string, N=16, size=8):
 
@@ -61,10 +61,10 @@ def L_transform_reversed(string):
 def F_transform(two_strings, key):
 
     v128_1, v128_0 = two_strings
-    return (b.xor(L_transform(S_tranform(X_transform(v128_1, key=key))), v128_0), v128_0)
+    return (b.xor(L_transform(S_transform(X_transform(v128_1, key=key))), v128_0), v128_1)
 
 def LSX_transform(string_128, key):
-    return L_transform(S_tranform(X_transform(string_128, key=key)))
+    return L_transform(S_transform(X_transform(string_128, key=key)))
 
 def LSX_transform_reversed(string_128, key):
     return S_transform_reversed(L_transform_reversed(X_transform(string_128, key=key)))

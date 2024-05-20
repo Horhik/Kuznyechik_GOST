@@ -11,5 +11,5 @@ COPY . /app
 WORKDIR /app
 
 # Команда для запуска тестов
-CMD ["python", "-m", "unittest", "test_basic.py"]
+CMD ["python", "-m", "unittest", "main.py"]
 
