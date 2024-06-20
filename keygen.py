@@ -14,7 +14,7 @@ def generate_constants():
         C.append(L_transform(ring_to_string(i)))
     return C
 
-def generate_main_key(seed):
+def generate_main_key(seed=None):
     """ -> 256 bit """
     return randint(0, 2**256)
 

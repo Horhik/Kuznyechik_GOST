@@ -25,7 +25,7 @@ Z(2^s): ring by 2^s
 """ Basic encryption algorithm """
 
 from keygen import generate_keys
-from transforms import LSX_transform, X_transform
+from transforms import LSX_transform, X_transform, LSX_transform_reversed
 
 def encrypt(text, key):
 
@@ -38,12 +38,13 @@ def encrypt(text, key):
     return cypher
 
 
-def decrypt(cypher, keys):
+def decrypt(cypher, key):
 
     """ V128 -> V128"""
 
+    keys = generate_keys(key)
     text = cypher
     for i in range(9, 0, -1):
-        cypher = LSX_transform_reversed(cypher, keys[i])
-    cypher = X_transform(cypher, keys[0])
-
+        text = LSX_transform_reversed(text, keys[i])
+    text = X_transform(text, keys[0])
+    return text

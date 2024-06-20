@@ -50,13 +50,29 @@ def R_transform(string, N=16, size=8):
 def L_transform(string):
     return b.compose_n_times(R_transform, string, 16)
 
-def R_transform_reversed(string):
-    array = b.split(string, 16)
-    without_first = array[1:]
-    return np.hstack(without_first, b.linear_transform(np.hstack(without_first, array[0])))
+def R_transform_reversed(string, N=16, size=8):
+    # a0, a1, ..., a15
+    array = b.split(string, N, size=size)
+
+    # a15,a14,...,a0
+    reversed_array = list(reversed(array))
+    a15 = reversed_array[0]
+
+    # a14,...,a0
+    without_first = reversed_array[1:]
+
+    # l(a14, a13, ..., a0, a15)
+    ltrans = b.linear_transform(without_first + [a15])
+
+    result = b.connect(without_first, size)
+    result = b.connect([result, ltrans], size)
+    return result
 
 def L_transform_reversed(string):
-    return b.compose_n_times(R_transform_reversed, string, 16)
+    result = string
+    for i in range(16):
+        result = R_transform_reversed(result)
+    return result
 
 def F_transform(two_strings, key):
 

@@ -6,6 +6,7 @@ import sys # added!
 sys.path.append("..")
 
 import transforms as tr
+import random
 
 
 class Test(unittest.TestCase):
@@ -23,6 +24,11 @@ class Test(unittest.TestCase):
        self.assertEqual(tr.R_transform(0x94000000000000000000000000000001),0xa5940000000000000000000000000000)
        self.assertEqual(tr.R_transform(0xa5940000000000000000000000000000),0x64a59400000000000000000000000000)
        self.assertEqual(tr.R_transform(0x64a59400000000000000000000000000),0x0d64a594000000000000000000000000)
+
+
+       got = random.randint(0, 2**128)
+       expected = tr.R_transform_reversed(tr.R_transform(got))
+       self.assertEqual(got, expected)
 
     def test_S_transform(self):
 
@@ -81,20 +87,19 @@ class Test(unittest.TestCase):
 
 
 
-        def test_L_transform_reversed(self):
+    def test_L_transform_reversed(self):
+        got = [
+         tr.L_transform_reversed(0xd456584dd0e3e84cc3166e4b7fa2890d),
+         tr.L_transform_reversed(0x79d26221b87b584cd42fbc4ffea5de9a),
+         tr.L_transform_reversed(0x0e93691a0cfc60408b7b68f66b513c13),
+         tr.L_transform_reversed(0xe6a8094fee0aa204fd97bcb0b44b8580),
+     ]
 
-            got = [
-                tr.L_transform_reversed(0xd456584dd0e3e84cc3166e4b7fa2890d),
-                tr.L_transform_reversed(0x79d26221b87b584cd42fbc4ffea5de9a),
-                tr.L_transform_reversed(0x0e93691a0cfc60408b7b68f66b513c13),
-                tr.L_transform_reversed(0xe6a8094fee0aa204fd97bcb0b44b8580),
-            ]
+        expected = [
+         0x64a59400000000000000000000000000,
+         0xd456584dd0e3e84cc3166e4b7fa2890d,
+         0x79d26221b87b584cd42fbc4ffea5de9a,
+         0x0e93691a0cfc60408b7b68f66b513c13,
+     ]
 
-            expected = [
-                0x64a59400000000000000000000000000,
-                0xd456584dd0e3e84cc3166e4b7fa2890d,
-                0x79d26221b87b584cd42fbc4ffea5de9a,
-                0x0e93691a0cfc60408b7b68f66b513c13,
-            ]
-
-            self.assertEqual(expected, got)
+        self.assertEqual(expected, got)
