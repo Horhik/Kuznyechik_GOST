@@ -3,6 +3,7 @@
 
 from basic import split, ring_to_string
 from transforms import L_transform, F_transform
+from random import randint
 
 
 def generate_constants():
@@ -15,7 +16,7 @@ def generate_constants():
 
 def generate_main_key(seed):
     """ -> 256 bit """
-    pass
+    return randint(0, 2**256)
 
 def split_key(key):
     """" V256 -> (V128, V128)"""
@@ -36,3 +37,8 @@ def iterative_key_generation(key, constants):
     for i in range(1, 4 + 1):
         k[2*i+1 + (-1)], k[2*i+2 + (-1)] = F_recursion(i, k[2*i-1 + (-1)], k[2*i + (-1)], constants)
     return k
+
+def generate_keys(mainkey):
+    constants = generate_constants()
+    keys = iterative_key_generation(mainkey, constants)
+    return keys

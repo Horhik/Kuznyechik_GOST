@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-
 """
 GOST definitions
 
@@ -25,14 +24,18 @@ Z(2^s): ring by 2^s
 
 """ Basic encryption algorithm """
 
-def encrypt(text, keys):
+from keygen import generate_keys
+from transforms import LSX_transform, X_transform
+
+def encrypt(text, key):
 
     """ V128 -> V128"""
-
+    keys = generate_keys(key)
     cypher = text
     for i in range(0, 9):
         cypher = LSX_transform(cypher, keys[i])
     cypher = X_transform(cypher, keys[9])
+    return cypher
 
 
 def decrypt(cypher, keys):
