@@ -10,6 +10,7 @@ sys.path.append("..")
 
 import cbc_mode.cbc as cbc
 from preprocessing import encode
+from keygen import generate_main_key
 
 TEXT = encode("IIt’s up to brave hearts, sir, to be patient when things are going badly, as well as being happy when they\'re going well.It’s up to brave hearts, sir, to be patient when things are going badly, as well as being happy when they\'re going well.It’s up to brave hearts, sir, to be patient when things are going badly, as well as being happy when they\'re going well.t’s up to brave hearts, sir, to be patient when things are going badly, as well as being happy when they\'re going well.")
 TEXT1 = encode("")
@@ -24,7 +25,10 @@ class Test(unittest.TestCase):
 
         self.assertEqual(text, TEXT)
     def test_encrypt(self):
-        ID = lambda text,key: text
-        self.assertEqual(cbc.decrypt(cbc.encrypt(TEXT, 0, ID), 0, ID ), TEXT)
-        self.assertEqual(cbc.decrypt(cbc.encrypt(TEXT1, 0, ID), 0, ID ), TEXT1)
-        self.assertEqual(cbc.decrypt(cbc.encrypt(TEXT2, 0, ID), 0, ID ), TEXT2)
+        key = generate_main_key()
+        print("TESTING ENCRYPTION:")
+        print(cbc.encrypt(TEXT, key))
+        print("ГЫГЫГ :")
+        self.assertEqual(cbc.decrypt(cbc.encrypt(TEXT, key), key), TEXT)
+        self.assertEqual(cbc.decrypt(cbc.encrypt(TEXT1, key), key), TEXT1)
+        self.assertEqual(cbc.decrypt(cbc.encrypt(TEXT2, key), key), TEXT2)

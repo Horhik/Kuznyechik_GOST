@@ -8,7 +8,8 @@ from hardcoded import nonlinear_coeffs
 from basic import compose_n_times
 import keygen as k
 import transforms as t
-from cypher import encrypt
+from cypher import encrypt, decrypt
+from random import randint
 
 
 K = 0x8899aabbccddeeff0011223344556677fedcba98765432100123456789abcdef
@@ -64,3 +65,8 @@ class Test(unittest.TestCase):
             self.assertEqual(step, LSXs[i])
         self.assertEqual(b, X(step, Ks[9]))
         self.assertEqual(b, encrypt(a, K))
+    def test_encrypt_decrypt(self):
+        for i in range(100):
+            key = randint(0, 2**256)
+            text = randint(0, 2**128)
+            self.assertEqual(text, decrypt(encrypt(text, key),key))
