@@ -42,3 +42,18 @@ def generate_keys(mainkey):
     constants = generate_constants()
     keys = iterative_key_generation(mainkey, constants)
     return keys
+
+
+def write_key_to_file(path, key):# writing key to file
+    # opening the file and writing key as bytes################################
+    f = open(path, "wb")
+    f.write(bytes(key))
+    f.close()
+
+def read_key_from_file(path):
+    # opening the file and reading key as bytes
+    f = open(path, "rb")
+    key = f.read()
+    f.close()
+    key_as_int = int.from_bytes(key, "big")
+    return key_as_int
