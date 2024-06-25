@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 
 # text to int number
-def encode(text, encoding="ISO-8859-1", endian="big"):
-    return int.from_bytes(text.encode(encoding=encoding), endian)
+def encode(text, encoding="utf-32", endian="big"):
+    return int.from_bytes(text.encode(encoding), endian)
 
 # int number to text
-def decode(numeric, encoding="ISO-8859-1", endian="big"):
-    text = numeric.to_bytes((numeric.bit_length() + 7) // 8, endian).decode(encoding=encoding)
-    return text
+def decode(numeric, encoding="utf-32", endian="big"):
+    btext = numeric.to_bytes((numeric.bit_length() + 7) // 8, endian)
+    return btext.decode(encoding)
 def file_to_btext(path):
     f = open(path, mode="rb")
     data = f.read()

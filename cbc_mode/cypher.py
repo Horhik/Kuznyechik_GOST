@@ -9,20 +9,33 @@ from keygen import generate_main_key
 
 
 def cbc_encrypt_utf8(text, key=None):
+    """
+    Taking  a text,
+    processing it as utf8 text
+    and returning encrypted as int
+    """
     if key == None:
         key = generate_main_key()
 
 
-    encoded = encode(text)
+    encoded = encode(text) # text from utf-8 to int
     encrypted = cbc.encrypt(encoded, key)
     #btext = encrypted.to_bytes((encrypted.bit_length() + 7) // 8, "big")
-    text = decode(encrypted)
+    #text = decode(encrypted)
 
 
-    return (text, key)
+    return (encrypted, key)
 
 def cbc_decrypt_utf8(text, key):
-    numeric = int.from_bytes(text, "big")
+    """
+    taking int as a string, turning it into int and decrypting this int
+    """
+    numeric = None
+    #numeric = int.from_bytes(text, "big")
+    try:
+        numeric = int(text)
+    except:
+        raise Exception("[ERROR] You are decrypting invalid message")
     decrypted = cbc.decrypt(numeric, key)
     decoded = decode(decrypted)
     return decoded

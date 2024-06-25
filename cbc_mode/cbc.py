@@ -8,6 +8,7 @@
 
 import random
 import cypher as c
+import sys
 
 
 def split_to_blocks(plain_text, size=128):
@@ -58,6 +59,7 @@ def xor(cypher_text, plain_text):
 
 def encrypt(plain_text, key):
     """
+    (int, int) -> int
     T1 T2 T3
     T3, T2, T1
     C3 = IV + cypher(T3)
@@ -76,10 +78,14 @@ def encrypt(plain_text, key):
 
     cypher = iv
     cyphered_blocks = [iv]
-
-
+    l = len(blocks)
+    print("Total blocks: ", l)
     for i in range(len(blocks)):
-        print(f"Encrypting {i} block")
+        #print(f"Encrypting {i} block")
+
+        print(f"{int(i/l*100)}% complete", end='\r')
+
+        sys.stdout.flush()
         cypher =xor(cypher, c.encrypt(blocks[i], key))
         cyphered_blocks.append(cypher)
     return unir(cyphered_blocks)
@@ -105,10 +111,11 @@ def decrypt(cypher_text, key):
     """
     blocks = split_to_blocks(cypher_text)
     iv = blocks[0]
-
+    l = len(blocks)
     text_blocks = []
-    for i in range(1,len(blocks)):
-        print(f"Decrypting {i} block")
+    for i in range(1,l):
+        print(f"{int(i/l*100)}% complete", end='\r')
+        sys.stdout.flush()
         text  = c.decrypt(xor(blocks[i-1], blocks[i]),key)
         text_blocks.append(text)
 

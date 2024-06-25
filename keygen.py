@@ -47,7 +47,8 @@ def generate_keys(mainkey):
 def write_key_to_file(path, key):# writing key to file
     # opening the file and writing key as bytes################################
     f = open(path, "wb")
-    f.write(bytes(key))
+    btes = key.to_bytes((key.bit_length() + 7) // 8, "big")
+    f.write(btes)
     f.close()
 
 def read_key_from_file(path):
